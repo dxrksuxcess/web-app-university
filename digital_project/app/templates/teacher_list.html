@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <title>Список преподавателей</title>
+  </head>
+  <body>
+      <h1>Список преподавателей</h1>
+      <table>
+          <thead>
+              <tr>
+                  <th>Имя</th>
+                  <th>Email</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% for teacher in teachers %}
+                  <tr>
+                      <td>{{ teacher.name }}</td>
+                      <td>{{ teacher.email }}</td>
+                  </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+  </body>
+  </html>

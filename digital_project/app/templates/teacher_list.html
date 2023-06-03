@@ -1,25 +1,29 @@
-<!DOCTYPE html>
-  <html>
-  <head>
-      <title>Список преподавателей</title>
-  </head>
-  <body>
-      <h1>Список преподавателей</h1>
-      <table>
-          <thead>
-              <tr>
-                  <th>Имя</th>
-                  <th>Email</th>
-              </tr>
-          </thead>
-          <tbody>
-              {% for teacher in teachers %}
-                  <tr>
-                      <td>{{ teacher.name }}</td>
-                      <td>{{ teacher.email }}</td>
-                  </tr>
-              {% endfor %}
-          </tbody>
-      </table>
-  </body>
-  </html>
+{% extends 'base.html' %}
+
+{% block title %}
+Список преподавателей
+{% endblock %}
+
+{% block content %}
+<h1>Список преподавателей</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Имя</th>
+            <th>Email</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for teacher in teachers %}
+            <tr>
+                <td>{{ teacher.name }}</td>
+                <td>{{ teacher.email }}</td>
+                <td><a href="{% url 'edit_teacher' teacher.id %}">Редактировать</a></td>
+                <td><a href="{% url 'delete_teacher' teacher.id %}">Удалить</a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

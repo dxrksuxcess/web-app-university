@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 from django.shortcuts import render, redirect
 from .models import Teacher, Student
@@ -41,6 +41,42 @@ def student_list(request):
         teacher_id = request.POST.get('teacher_id')
         students = Student.objects.filter(teacher_id=teacher_id)
     else:
-        students = []
+        students = Student.objects.all()
     teachers = Teacher.objects.all()
     return render(request, 'student_list.html', {'students': students, 'teachers': teachers})
+
+
+def edit_teacher(request, pk):
+    teacher = get_object_or_404(Teacher, pk=pk)
+    if request.method == 'POST':
+        form = TeacherForm(request.POST, instance=teacher)
+        if form.is_valid():
+            form.save()
+            return redirect('teacher_list')
+    else:
+        form = TeacherForm(instance=teacher)
+    return render(request, 'edit_teacher.html', {'form': form})
+
+
+def delete_teacher(request, pk):
+    teacher = get_object_or_404(Teacher, pk=pk)
+    teacher.delete()
+    return redirect('teacher_list')
+
+
+def edit_student(request, pk):
+    student = get_object_or_404(Student, pk=pk)
+    if request.method == 'POST':
+        form = StudentForm(request.POST, instance=student)
+        if form.is_valid():
+            form.save()
+            return redirect('student_list')
+    else:
+        form = StudentForm(instance=student)
+    return render(request, 'edit_student.html', {'form': form})
+
+
+def delete_student(request, pk):
+    student = get_object_or_404(Student, pk=pk)
+    student.delete()
+    return redirect('student_list')

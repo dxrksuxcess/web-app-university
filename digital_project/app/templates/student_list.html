@@ -1,35 +1,41 @@
- <!DOCTYPE html>
-  <html>
-  <head>
-      <title>Список студентов</title>
-  </head>
-  <body>
-      <h1>Список студентов</h1>
-      <form method="post">
-          {% csrf_token %}
-          <label for="teacher_id">Выберите преподавателя:</label>
-          <select name="teacher_id" id="teacher_id">
-              {% for teacher in teachers %}
-                  <option value="{{ teacher.id }}">{{ teacher.name }}</option>
-              {% endfor %}
-          </select>
-          <button type="submit">Выбрать</button>
-      </form>
-      <table>
-          <thead>
-              <tr>
-                  <th>Имя</th>
-                  <th>Email</th>
-              </tr>
-          </thead>
-          <tbody>
-              {% for student in students %}
-                  <tr>
-                      <td>{{ student.name }}</td>
-                      <td>{{ student.email }}</td>
-                  </tr>
-              {% endfor %}
-          </tbody>
-      </table>
-  </body>
-  </html>
+{% extends 'base.html' %}
+
+{% block title %}
+Список студентов
+{% endblock %}
+
+{% block content %}
+<h1>Список студентов</h1>
+<form method="post">
+    {% csrf_token %}
+    <label for="teacher_id">Выберите преподавателя:</label>
+    <select name="teacher_id" id="teacher_id">
+        {% for teacher in teachers %}
+            <option value="{{ teacher.id }}">{{ teacher.name }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Выбрать</button>
+</form>
+<table>
+    <thead>
+        <tr>
+            <th>Имя</th>
+            <th>Email</th>
+            <th>Преподаватель</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for student in students %}
+            <tr>
+                <td>{{ student.name }}</td>
+                <td>{{ student.email }}</td>
+                <td>{{ student.teacher }}</td>
+                <td><a href="{% url 'edit_student' student.id %}">Редактировать</a></td>
+                <td><a href="{% url 'delete_student' student.id %}">Удалить</a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
